@@ -7,7 +7,11 @@
 
 class PN532_SPI : public PN532Interface {
   public:
+  #if defined(ARDUINO_ARCH_RP2040)
+    PN532_SPI(SPIClassRP2040& spi, uint8_t ss);
+  #else
     PN532_SPI(SPIClass& spi, uint8_t ss);
+  #endif
 
     void begin();
     void wakeup();
@@ -16,7 +20,11 @@ class PN532_SPI : public PN532Interface {
     int16_t readResponse(uint8_t buf[], uint8_t len, uint16_t timeout);
 
   private:
+  #if defined(ARDUINO_ARCH_RP2040)
+    SPIClassRP2040* _spi;
+  #else
     SPIClass* _spi;
+  #endif
     uint8_t _ss;
     uint8_t command;
 

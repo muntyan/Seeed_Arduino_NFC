@@ -7,16 +7,28 @@
 #define DATA_WRITE 1
 #define DATA_READ 3
 
+#if defined(ARDUINO_ARCH_RP2040)
+PN532_SPI::PN532_SPI(SPIClassRP2040& spi, uint8_t ss) {
+    command = 0;
+    _spi = &spi;
+    _ss = ss;
+}
+#else
 PN532_SPI::PN532_SPI(SPIClass& spi, uint8_t ss) {
     command = 0;
     _spi = &spi;
     _ss = ss;
 }
+#endif
 
 void PN532_SPI::begin() {
     pinMode(_ss, OUTPUT);
 
     _spi->begin();
+    #if defined(ARDUINO_ARCH_RP2040)
+    _spi->setDataMode(SPI_MODE0); // PN532 only supports mode0
+    _spi->setBitOrder(LSBFIRST);
+    #else
     _spi->setDataMode(SPI_MODE0); // PN532 only supports mode0
     _spi->setBitOrder(LSBFIRST);
     #if defined __SAM3X8E__
@@ -27,6 +39,7 @@ void PN532_SPI::begin() {
     _spi->setClockDivider(24); // set clock 2MHz(max: 5MHz)
     #else
     _spi->setClockDivider(SPI_CLOCK_DIV8); // set clock 2MHz(max: 5MHz)
+    #endif
     #endif
 }
 

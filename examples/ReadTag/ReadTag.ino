@@ -6,7 +6,7 @@
     #include <PN532/PN532_SPI/PN532_SPI.h>
     PN532_SPI pn532spi(SPI, 9);
     NfcAdapter nfc = NfcAdapter(pn532spi);
-#elif 1 // use hardware serial
+#elif 0 // use hardware serial
 
     #include <PN532/PN532_HSU/PN532_HSU.h>
     PN532_HSU pn532hsu(Serial1);

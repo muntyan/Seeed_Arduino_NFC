@@ -5,7 +5,7 @@
 
 #include "Arduino.h"
 
-#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
+#if defined(ARDUINO_SAMD_VARIANT_COMPLIANCE) && defined(SerialUSB)
     #define SERIAL SerialUSB
 #else
     #define SERIAL Serial
