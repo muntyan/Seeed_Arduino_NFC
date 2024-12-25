@@ -6,6 +6,9 @@
 // Adafruit Liquid Crystal library https://github.com/adafruit/LiquidCrystal
 // Use a Android of BlackBerry phone to send a message to the NFC shield
 
+#include <NfcAdapter.h>
+#include <PN532/PN532/PN532.h>
+
 #include "SPI.h"
 #include "PN532/PN532_SPI/PN532_SPI.h"
 #include "PN532/PN532/snep.h"
@@ -18,8 +21,11 @@ PN532_SPI pn532spi(SPI, 10);
 SNEP nfc(pn532spi);
 uint8_t ndefBuf[128];
 
-// Connect via i2c, default address #0 (A0-A2 not jumpered)
-LiquidCrystal lcd(0);
+// // Connect via i2c, default address #0 (A0-A2 not jumpered)
+// LiquidCrystal lcd(0);
+
+const int rs = D0, en = D1, d4 = D2, d5 = D3, d6 = D4, d7 = D5;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
     SERIAL.begin(9600);
